@@ -1,3 +1,4 @@
+using System;
 using ConsoleApp4.DbData;
 using ConsoleApp4.DbConfiguration;
 using Microsoft.EntityFrameworkCore;
@@ -7,10 +8,10 @@ namespace ConsoleApp4
 {
     public class ApplicationContext : DbContext
     {
-        public ApplicationContext()
+        public ApplicationContext(DbContextOptions<ApplicationContext> options)
+            : base(options)
         {
-            Database.EnsureDeleted();
-            Database.EnsureCreated();
+            //Database.EnsureDeleted();
         }
 
         public DbSet<Employee> Employees { get; set; }
@@ -23,6 +24,8 @@ namespace ConsoleApp4
 
         public DbSet<Title> Titles { get; set; }
 
+        public DbSet<Client> Clients { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new EmployeeConfiguration());
@@ -30,12 +33,12 @@ namespace ConsoleApp4
             modelBuilder.ApplyConfiguration(new OfficeConfiguration());
             modelBuilder.ApplyConfiguration(new ProjectConfiguration());
             modelBuilder.ApplyConfiguration(new TitleConfiguration());
+            modelBuilder.ApplyConfiguration(new ClientConfiguration());
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder configureBuilder)
         {
-            IConfiguration configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-            configureBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+            configureBuilder.LogTo(Console.Write);
         }
     }
 }

@@ -13,6 +13,11 @@ namespace ConsoleApp4.DbData
 
         public DateTime StartedDate { get; set; }
 
+        public Client Client { get; set; }
+
+        public int ClientId { get; set; }
+
         public List<EmployeeProject> EmployeeProjects { get; set; }
+
     }
 }
