@@ -26,7 +26,6 @@ namespace ConsoleApp4
             query3[0].Name = "valik";
             query3[1].Name = "valik1";
 
-            // query 4
             applicationContext.Add(new Employee
              {
                  FirstName = "Asd",
@@ -57,7 +56,7 @@ namespace ConsoleApp4
 
             var query5 = applicationContext.Employees.OrderByDescending(e => e.EmployeeId).FirstOrDefault();
             applicationContext.Employees.Remove(query5);
-            
+
             var query6 = applicationContext
                 .Employees.Select(e => new
                 {
@@ -66,6 +65,8 @@ namespace ConsoleApp4
                 .Where(t => !t.Title.Contains("a"))
                 .AsEnumerable()
                 .GroupBy(t => t.Title).ToList();
+
+            applicationContext.SaveChanges();
         }
     }
 }
